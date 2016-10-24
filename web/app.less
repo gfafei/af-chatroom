@@ -1,0 +1,33 @@
+input {
+  padding: 0;
+  outline: 0;
+  border: 1px solid #ddd;
+}
+
+button {
+  outline: 0;
+}
+
+i[class*="icon-"],
+.x-iconfont
+{
+  font-family: "finex";
+  font-style:normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+@font-face {
+  font-family: 'finex';
+  src: url('./lib/font/iconfont.eot'); /* IE9*/
+  src: url('./lib/font/iconfont.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('./lib/font/iconfont.woff') format('woff'), /* chrome、firefox */
+  url('./lib/font/iconfont.ttf')  format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+  url('./lib/font/iconfont.svg#svgFontName') format('svg'); /*  iOS 4.1- */
+}
+
+i.icon-search:before { content: "\e622" }
+i.icon-combo:before { content: "\e62c" }
+i.icon-upload:before { content: "\e63a" }
+i.icon-close:before { content: "\e638" }
+i.icon-user:before { content: "\e602" }
+i.icon-lock:before { content: "\e601" }
