@@ -9,26 +9,20 @@ export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {};
-    this.signIn = this.signIn.bind(this);
+    this.setUser = this.setUser.bind(this);
   }
 
-  componentWillMount() {
-    this.context.router.push('/');
-    socket.on('signIn', this.signIn)
-  }
-
-  signIn(data) {
-    if (data.status === 'success') {
-      this.context.router.push('/chat');
-    } else {
-      alert(data.err);
-    }
+  setUser (user) {
+    this.state.user = user;
   }
 
   render() {
+    const children = this.props.children.map(function (child) {
+      child.props.setUser = this.setUser;
+    });
     return (
-      <div>
-        {this.props.children}
+      <div className="app-pane">
+        {children}
       </div>
     )
   }

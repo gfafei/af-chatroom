@@ -4,10 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "npm run build:clean && npm run build:lib && npm run build:js",
-    "build:js": "webpack --progress --colors --watch",
-    "build:lib": "xcopy web\\lib public\\lib\\ /s /e",
-    "build:clean": "rimraf public",
+    "start": "node server/app",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "afei",
@@ -15,12 +12,14 @@
   "dependencies": {
     "express": "^4.14.0",
     "moment": "^2.15.1",
+    "mongoose": "^4.6.8",
     "react": "^15.3.2",
     "react-router": "^2.8.1",
     "socket.io": "^1.5.0",
     "socket.io-client": "^1.5.0"
   },
   "devDependencies": {
+    "async": "^2.1.2",
     "babel-core": "^6.17.0",
     "babel-loader": "^6.2.5",
     "babel-preset-es2015": "^6.16.0",
@@ -28,12 +27,16 @@
     "babel-preset-stage-0": "^6.16.0",
     "chokidar": "^1.6.1",
     "css-loader": "^0.25.0",
+    "del": "^2.2.2",
     "file-loader": "^0.9.0",
+    "gulp": "^3.9.1",
+    "gulp-clean": "^0.3.2",
     "less": "^2.7.1",
     "less-loader": "^2.2.3",
     "postcss-loader": "^1.0.0",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
-    "webpack": "^1.13.2"
+    "webpack": "^1.13.2",
+    "webpack-stream": "^3.2.0"
   }
 }
