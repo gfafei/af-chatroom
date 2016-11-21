@@ -1,0 +1,1 @@
+一个聊天应用，前端采用了react + react-router。后端node + socket.功能比较简单，主要是学习目的。
