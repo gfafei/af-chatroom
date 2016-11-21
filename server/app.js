@@ -23,9 +23,9 @@ io.sockets.on('connection', function (socket) {
       createTime: new Date(),
     });
     io.sockets.emit('message', {
-      message: data.message,
-      user: socket.user,
-      time: moment().format('HH:mm'),
+      content: data.message,
+      creator: socket.user,
+      createTime: moment().format('HH:mm'),
     });
   });
 
@@ -63,12 +63,30 @@ io.sockets.on('connection', function (socket) {
           err: err
         });
       } else {
-        socket.emit('signUp', {
-          status: 'success',
-        });
         var user = results.signUp.toObject();
         user.id = socket.id;
         socket.user = user;
+        socket.emit('signUp', {
+          status: 'success',
+          user: user,
+        });
+
+      }
+    });
+  });
+
+  socket.on('loadMore', function (data) {
+    Message.findLastMessagesByTime(data.createTime, function (err, messages) {
+      if (err) {
+        socket.emit({
+          status: 'fail',
+          err: err,
+        })
+      } else {
+        socket.emit('loadMore', {
+          status: 'success',
+          messages: messages,
+        });
       }
     });
   });

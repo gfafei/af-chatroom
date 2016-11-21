@@ -7,7 +7,7 @@ import { Link } from 'react-router';
 import './signin.less';
 
 export default class SignIn extends Component {
-  constructor(props) {
+  constructor(props, context) {
     super(props);
     this.state = {};
     this.signIn = this.signIn.bind(this);
@@ -17,7 +17,6 @@ export default class SignIn extends Component {
 
   componentWillMount () {
     socket.on('signIn', this.doSignIn);
-    this.$logInPane.addEventListener('keydown', this.handleKeyDown);
   }
 
   handleKeyDown(event) {
@@ -34,8 +33,8 @@ export default class SignIn extends Component {
 
   doSignIn (data) {
     if (data.status === 'success') {
+      this.props.setUser(data.user);
       this.context.router.push('/chat');
-      this.$logInPane.removeEventListener('click', this.handleKeyDown);
     } else {
       alert(data.err);
     }
@@ -43,7 +42,7 @@ export default class SignIn extends Component {
 
   render() {
     return (
-      <div className="login-pane" ref={el => {this.$logInPane = el}}>
+      <div className="login-pane" onKeyDown={this.handleKeyDown}>
         <div className="form-item">
           <i className="icon-user" />
           <input ref={el => {this.$username = el}} />
@@ -57,5 +56,8 @@ export default class SignIn extends Component {
       </div>
     )
   }
-
 }
+
+SignIn.contextTypes = {
+  router: React.PropTypes.object.isRequired,
+};

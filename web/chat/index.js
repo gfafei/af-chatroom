@@ -2,9 +2,6 @@ import React, { Component, PropTypes } from 'react';
 import socket from '../socket';
 import './chat.less';
 
-const propTypes = {};
-const defaultProps = {};
-
 export default class Chat extends Component {
   constructor(props) {
     super(props);
@@ -14,19 +11,50 @@ export default class Chat extends Component {
     this.sendMessage = this.sendMessage.bind(this);
     this.receiveMessage = this.receiveMessage.bind(this);
     this.handleKeyDown = this.handleKeyDown.bind(this);
+    this.loadMore = this.loadMore.bind(this);
+    this.doLoadMore = this.doLoadMore.bind(this);
   }
 
   componentWillMount() {
     socket.on('message', this.receiveMessage);
+    socket.on('loadMore', this.doLoadMore);
   }
 
-  componentWillUnMount() {
-    socket.removeListener('message', this.receiveMessage);
+  componentDidMount () {
+    if (!this.props.getUser()) {
+      this.context.router.push('/signIn');
+    } else {
+      this.context.router.push('/chat');
+    }
   }
 
-  handleKeyDown(event) {
+  handleKeyDown (event) {
     if (event.keyCode === 13) {
       this.sendMessage();
+    }
+  }
+
+  loadMore () {
+    const { messages } = this.state;
+    const createTime = messages.length ? messages[0].createTime : new Date();
+    socket.emit('loadMore', { createTime });
+  }
+
+  doLoadMore (data) {
+    const { messages } = this.state;
+
+    if (data.status === 'success') {
+      if (data.messages.length) {
+        data.messages.forEach((message) => {
+          messages.unshift(message)
+        });
+        this.setState({ messages });
+      } else {
+        // TODO 这里好像会执行两次，socket收到两次返回，貌似是socket的bug
+        // alert('没有更多了');
+      }
+    } else {
+      alert(data.err);
     }
   }
 
@@ -41,9 +69,9 @@ export default class Chat extends Component {
   receiveMessage(data) {
     const { messages } = this.state;
     messages.push({
-      sender: data.user,
-      content: data.message,
-      time: data.time,
+      creator: data.creator,
+      content: data.content,
+      createTime: data.createTime,
     });
     this.setState({ messages }, () => {
       //自动滚动到底部
@@ -57,14 +85,15 @@ export default class Chat extends Component {
     let $messageList = [];
     this.state.messages.forEach((message, i) => {
       let classNames = ['message-item'];
-      if (message.sender.id === socket.id) {
+      const user = this.props.getUser();
+      if (message.creator._id === user._id) {
         classNames.push('message-self');
       }
       $messageList.push(
         <li className={classNames.join(' ')} key={i}>
           <div>
-            <span className="message-sender">{message.sender.username}</span>
-            <span className="message-time">{message.time}</span>
+            <span className="message-sender">{message.creator.username}</span>
+            <span className="message-time">{message.createTime}</span>
           </div>
           <div className="message-content">{message.content}</div>
         </li>
@@ -72,7 +101,8 @@ export default class Chat extends Component {
     });
     return (
       <div className="chat">
-        <div className="chat-content">
+        <div className="chat-content" >
+          <div className="load-more"  onClick={this.loadMore}>加载更多...</div>
           <ul className='message-list'>
             {$messageList}
           </ul>
@@ -93,5 +123,6 @@ export default class Chat extends Component {
 
 }
 
-Chat.propTypes = propTypes;
-Chat.defaultProps = defaultProps;
+Chat.contextTypes = {
+  router: React.PropTypes.object.isRequired,
+};
