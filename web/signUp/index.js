@@ -11,6 +11,11 @@ export default class SignUp extends Component {
     super(props);
     this.state = {};
     this.signUp = this.signUp.bind(this);
+    this.doSignUp = this.doSignUp.bind(this);
+  }
+
+  componentWillMount () {
+    socket.on('signUp', this.doSignUp);
   }
 
   signUp () {
@@ -25,6 +30,16 @@ export default class SignUp extends Component {
     }
     socket.emit('signUp', { username, password });
   }
+
+  doSignUp (data) {
+    if (data.status === 'success') {
+      this.props.setUser(data.user);
+      this.context.router.push('/chat');
+    } else {
+      alert(data.err);
+    }
+  }
+
 
   render () {
     return (
@@ -44,3 +59,7 @@ export default class SignUp extends Component {
     )
   }
 }
+
+SignUp.contextTypes = {
+  router: React.PropTypes.object.isRequired,
+};
