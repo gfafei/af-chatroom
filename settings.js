@@ -1,9 +1,7 @@
 // var dev = process.env.NODE_ENV === 'dev';
 var dev = process.env.NODE_ENV === 'dev';
 module.exports = {
-  //服务器配置
-  server: 'http://104.194.81.171/',
-  port: 1350,
+  port: dev ? 80 : 1350,
   //数据库uri
   db: dev ? 'mongodb://104.194.81.171/af-chat' : 'mongodb://127.0.0.1/af-chat',
   //jwt密码
