@@ -16,9 +16,7 @@
     "react": "^15.3.2",
     "react-router": "^2.8.1",
     "socket.io": "^1.5.0",
-    "socket.io-client": "^1.5.0"
-  },
-  "devDependencies": {
+    "socket.io-client": "^1.5.0",
     "async": "^2.1.2",
     "babel-core": "^6.17.0",
     "babel-loader": "^6.2.5",
