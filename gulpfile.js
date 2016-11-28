@@ -17,11 +17,11 @@ gulp.task('build:copy',['build:clean'], function () {
     .pipe(gulp.dest('public/lib'));
 });
 
-gulp.task('build:js', function (cb) {
+gulp.task('build:webpack', function (cb) {
   webpack(webpackConfig, cb);
 });
 
-gulp.task('build', ['build:clean', 'build:copy', 'build:js']);
+gulp.task('build', ['build:clean', 'build:copy', 'build:webpack']);
 
 gulp.task('watch', function () {
   gulp.watch('web/**/*', ['build:js']);

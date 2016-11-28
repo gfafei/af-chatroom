@@ -92,6 +92,6 @@ io.sockets.on('connection', function (socket) {
   });
 });
 
-server.listen(process.env.PORT || 5000, function () {
-  console.log('running on port %s', process.env.PORT || 5000);
+server.listen(process.env.PORT || 3001, function () {
+  console.log('running on port %s', process.env.PORT || 3001);
 });
