@@ -1,7 +1,13 @@
-FROM centos
+FROM ubuntu
 MAINTAINER afei_gf@163.com
-# Enable EPEL for Node.js
-RUN rpm -Uvh http://download.fedoraproject.org/pub/epel/6/i386/epel-release-6-8.noarch.rpm
-# Install Node.js and npm
-RUN yum install -y npm
-RUN npm start
+
+#install the latest software and install nodejs
+RUN apt-get update &&\
+    apt-get install apt-file -y &&\
+    apt-file update &&\
+    apt-get install nodejs -y &&\
+    apt-get install npm -y &&\
+    apt-get install gcc-snapshot -y &&\
+    ln -s /usr/bin/nodejs /usr/bin/node
+
+RUN npm install && npm start
