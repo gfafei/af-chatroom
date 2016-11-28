@@ -1,3 +1,3 @@
 FROM centos
 MAINTAINER afei_gf@163.com
-RUN npm start
+RUN yum install -y npm && npm start
