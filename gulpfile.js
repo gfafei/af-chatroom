@@ -27,5 +27,5 @@ gulp.task('watch', function () {
   gulp.watch('web/**/*', ['build:js']);
 });
 
-gulp.task('dev', ['build', 'watch']);
+gulp.task('dev', ['build']);
 
