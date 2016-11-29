@@ -39,6 +39,7 @@ module.exports = {
   },
 
   DBConnect: function (db) {
+    mongoose.Promise = global.Promise;
     mongoose.connect(db, function (err) {
       if (err) {
         throw err;

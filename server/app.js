@@ -49,30 +49,27 @@ io.sockets.on('connection', function (socket) {
   });
 
   socket.on('signUp', function (data) {
-    async.series({
-      check: function (callback) {
+    async.waterfall([
+      function (callback) {
         Utils.checkSignUp(data.username, data.password, callback);
       },
-      signUp: function (callback) {
+      function (callback) {
         Utils.signUp(data.username, data.password, callback);
       }
-    }, function (err, results) {
+    ], function (err, user) {
       if (err) {
         socket.emit('signUp', {
           status: 'fail',
           err: err
         });
       } else {
-        var user = results.signUp.toObject();
-        user.id = socket.id;
-        socket.user = user;
         socket.emit('signUp', {
           status: 'success',
-          user: user,
+          user: user
         });
-
+        socket.user = user;
       }
-    });
+    })
   });
 
   socket.on('loadMore', function (data) {

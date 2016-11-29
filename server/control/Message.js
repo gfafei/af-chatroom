@@ -24,7 +24,7 @@ module.exports = {
         }, function (err, user) {
           message = message.toObject();
           message.creator = user;
-          message.createTime = moment(message.createTime).format('HH:mm');
+          message.createTime = moment(message.createTime).format('YYYY-MM-DD HH:mm');
           _messages.push(message);
           cb(err);
         });
