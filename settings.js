@@ -1,8 +1,10 @@
 // var dev = process.env.NODE_ENV === 'dev';
 var dev = process.env.NODE_ENV === 'dev';
 module.exports = {
-  dev: dev,
+  //生产环境
+  product: process.env.NODE_ENV === 'product',
   //数据库uri
-  db: dev ? 'mongodb://104.194.81.171/af-chat2' : 'mongodb://127.0.0.1/af-chat',
+  db: process.env.DB_URI || 'mongodb://127.0.0.1/af-chat',
+  port: process.env.PORT || 3001,
   host: 'http://afei-gf-af-chatroom.daoapp.io',
 };
